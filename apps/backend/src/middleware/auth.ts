@@ -4,7 +4,7 @@ import jwt from 'jsonwebtoken';
 const JWT_SECRET = process.env.JWT_SECRET || 'your-secret-key';
 
 export interface AuthRequest extends Request {
-  user?: { id: number; email: string };
+  user?: { id: number; email: string; role: 'admin' | 'user'; name: string };
 }
 
 export const auth = async (
@@ -13,15 +13,18 @@ export const auth = async (
   next: NextFunction
 ) => {
   try {
-    const token = req.cookies.token;
+    const authHeader = req.headers.authorization;
 
-    if (!token) {
+    if (!authHeader || !authHeader.startsWith('Bearer ')) {
       return res.status(401).json({ message: 'Authentication required' });
     }
 
+    const token = authHeader.split(' ')[1];
     const decoded = jwt.verify(token, JWT_SECRET) as {
       id: number;
       email: string;
+      role: 'admin' | 'user';
+      name: string;
     };
     req.user = decoded;
     next();
