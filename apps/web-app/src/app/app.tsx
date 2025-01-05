@@ -1,8 +1,15 @@
-import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
+import {
+  BrowserRouter as Router,
+  Routes,
+  Route,
+  Navigate,
+} from 'react-router-dom';
 import { Login } from '../features/auth/pages/login';
 import { Dashboard } from '../pages/Dashboard';
 import { useQuery } from '@tanstack/react-query';
 import { httpClient } from '../lib/http-client';
+import { DashboardLayout } from '../shared/layouts/dashboard.layout';
+import { Users } from '../features/users/pages/users';
 
 interface User {
   id: number;
@@ -40,10 +47,13 @@ export function App() {
           path="/dashboard"
           element={
             <ProtectedRoute>
-              <Dashboard />
+              <DashboardLayout />
             </ProtectedRoute>
           }
-        />
+        >
+          {/* <Route index element={<Dashboard />} /> */}
+          <Route path="users" element={<Users />} />
+        </Route>
         <Route path="/" element={<Navigate to="/dashboard" replace />} />
       </Routes>
     </Router>

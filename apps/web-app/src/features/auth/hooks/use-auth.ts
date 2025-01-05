@@ -20,6 +20,7 @@ const loginUser = async (
 
   // Store the JWT token
   localStorage.setItem('jwt_token', token);
+  localStorage.setItem('user', JSON.stringify(response.data.user));
 
   return response.data;
 };
@@ -38,7 +39,6 @@ export const useAuth = () => {
 
   const logout = async () => {
     try {
-      await httpClient.post('/auth/logout');
       localStorage.removeItem('jwt_token');
       queryClient.clear();
       navigate('/login');
