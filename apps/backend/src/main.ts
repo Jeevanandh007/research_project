@@ -5,6 +5,7 @@
 
 import express from 'express';
 import cookieParser from 'cookie-parser';
+import cors from 'cors';
 import authRoutes from './routes/auth';
 import userRoutes from './routes/users';
 
@@ -13,8 +14,10 @@ const port = process.env.PORT ? Number(process.env.PORT) : 3000;
 
 const app = express();
 
+// CORS configuration
+app.use(cors());
+
 app.use(express.json());
-app.use(cookieParser());
 
 // Routes
 app.use('/api/auth', authRoutes);
