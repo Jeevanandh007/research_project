@@ -8,6 +8,7 @@ import cookieParser from 'cookie-parser';
 import cors from 'cors';
 import authRoutes from './routes/auth';
 import userRoutes from './routes/users';
+import machineDataRoutes from './routes/machine-data';
 
 const host = process.env.HOST ?? 'localhost';
 const port = process.env.PORT ? Number(process.env.PORT) : 3000;
@@ -22,6 +23,7 @@ app.use(express.json());
 // Routes
 app.use('/api/auth', authRoutes);
 app.use('/api/users', userRoutes);
+app.use('/api/machine-data', machineDataRoutes);
 
 app.get('/', (req, res) => {
   res.send({ message: 'Hello API' });
