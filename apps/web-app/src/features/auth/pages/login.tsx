@@ -5,6 +5,7 @@ import { Navigate } from 'react-router-dom';
 import { useQuery } from '@tanstack/react-query';
 import { httpClient } from '../../../lib/http-client';
 import React from 'react';
+import { Spinner } from '../../../shared/components/spinner';
 
 interface LoginForm {
   email: string;
@@ -30,7 +31,11 @@ export function Login() {
   };
 
   if (isLoadingUser) {
-    return <div>Loading...</div>;
+    return (
+      <div className="min-h-screen flex items-center justify-center bg-gray-50">
+        <Spinner size="large" />
+      </div>
+    );
   }
 
   if (user) {
@@ -41,7 +46,7 @@ export function Login() {
     <div className="min-h-screen flex items-center justify-center bg-gray-50 p-4">
       <Card className="w-full max-w-md">
         <div className="text-center mb-8">
-          <h2 className="text-2xl font-bold">Sign in to your account</h2>
+          <h2 className="text-2xl font-bold">Sign In</h2>
         </div>
 
         {error && (
@@ -101,4 +106,4 @@ export function Login() {
       </Card>
     </div>
   );
-} 
+}

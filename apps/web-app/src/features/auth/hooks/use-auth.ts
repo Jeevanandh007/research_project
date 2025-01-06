@@ -7,9 +7,17 @@ interface LoginCredentials {
   password: string;
 }
 
+interface User {
+  id: number;
+  email: string;
+  role: 'admin' | 'user';
+  name: string;
+}
+
 interface LoginResponse {
   token: string;
   message: string;
+  user: User;
 }
 
 const loginUser = async (
@@ -40,6 +48,7 @@ export const useAuth = () => {
   const logout = async () => {
     try {
       localStorage.removeItem('jwt_token');
+      localStorage.removeItem('user');
       queryClient.clear();
       navigate('/login');
     } catch (error) {
@@ -47,10 +56,15 @@ export const useAuth = () => {
     }
   };
 
+  const user = localStorage.getItem('user')
+    ? (JSON.parse(localStorage.getItem('user')!) as User)
+    : null;
+
   return {
     login: loginMutation.mutate,
     logout,
     isLoading: loginMutation.isPending,
     error: loginMutation.error?.message,
+    user,
   };
 };

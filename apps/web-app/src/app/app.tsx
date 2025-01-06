@@ -5,38 +5,9 @@ import {
   Navigate,
 } from 'react-router-dom';
 import { Login } from '../features/auth/pages/login';
-import { Dashboard } from '../pages/Dashboard';
-import { useQuery } from '@tanstack/react-query';
-import { httpClient } from '../lib/http-client';
 import { DashboardLayout } from '../shared/layouts/dashboard.layout';
 import { Users } from '../features/users/pages/users';
-
-interface User {
-  id: number;
-  email: string;
-}
-
-const fetchCurrentUser = async (): Promise<User> => {
-  const response = await httpClient.get('/auth/me');
-  return response.data;
-};
-
-function ProtectedRoute({ children }: { children: React.ReactNode }) {
-  const { data: user, isLoading } = useQuery({
-    queryKey: ['currentUser'],
-    queryFn: fetchCurrentUser,
-  });
-
-  if (isLoading) {
-    return <div>Loading...</div>;
-  }
-
-  if (!user) {
-    return <Navigate to="/login" replace />;
-  }
-
-  return <>{children}</>;
-}
+import { ProtectedRoute } from '../shared/components/protected-route';
 
 export function App() {
   return (

@@ -11,13 +11,9 @@ import { useAuth } from '../../features/auth/hooks/use-auth';
 
 const { Header, Sider, Content } = Layout;
 
-interface DashboardLayoutProps {
-  children: ReactNode;
-}
-
 export function DashboardLayout() {
   const navigate = useNavigate();
-  const { logout } = useAuth();
+  const { logout, user } = useAuth();
 
   const userMenu = {
     items: [
@@ -30,10 +26,34 @@ export function DashboardLayout() {
     ],
   };
 
+  const menuItems = [
+    {
+      key: 'realtime',
+      icon: <LineChartOutlined />,
+      label: 'Realtime',
+      disabled: true,
+    },
+    {
+      key: 'dashboard',
+      icon: <DashboardOutlined />,
+      label: 'Dashboard',
+      disabled: true,
+    },
+  ];
+
+  if (user?.role === 'admin') {
+    menuItems.push({
+      key: 'users',
+      icon: <UserOutlined />,
+      label: 'Users',
+      disabled: false,
+    });
+  }
+
   return (
     <Layout style={{ minHeight: '100vh' }}>
       <Sider>
-        <div className="p-4 text-white text-xl font-bold">InsightEngine</div>
+        <div className="p-4 text-white text-xl font-bold">Insight Engine</div>
         <Menu
           theme="dark"
           mode="inline"
@@ -43,32 +63,17 @@ export function DashboardLayout() {
               navigate('/dashboard/users');
             }
           }}
-          items={[
-            {
-              key: 'realtime',
-              icon: <LineChartOutlined />,
-              label: 'Realtime',
-              disabled: true,
-            },
-            {
-              key: 'dashboard',
-              icon: <DashboardOutlined />,
-              label: 'Dashboard',
-              disabled: true,
-            },
-            {
-              key: 'users',
-              icon: <UserOutlined />,
-              label: 'Users',
-            },
-          ]}
+          items={menuItems}
         />
       </Sider>
       <Layout>
         <Header className="bg-white flex justify-between items-center px-6">
           <div />
           <Dropdown menu={userMenu} placement="bottomRight">
-            <Button icon={<UserOutlined />}>Admin</Button>
+            <Button icon={<UserOutlined />}>
+              {user?.name || user?.email || 'User'}
+              {/* Admin */}
+            </Button>
           </Dropdown>
         </Header>
         <Content className="m-6">

@@ -78,6 +78,7 @@ router.get('/', auth, checkRole(['admin']), async (req: AuthRequest, res) => {
       .select({
         id: users.id,
         email: users.email,
+        name: users.name,
         createdAt: users.createdAt,
         updatedAt: users.updatedAt,
       })
