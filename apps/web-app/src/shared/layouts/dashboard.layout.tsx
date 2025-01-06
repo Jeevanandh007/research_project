@@ -6,13 +6,14 @@ import {
   LineChartOutlined,
   LogoutOutlined,
 } from '@ant-design/icons';
-import { Outlet, useNavigate } from 'react-router-dom';
+import { Outlet, useNavigate, useLocation } from 'react-router-dom';
 import { useAuth } from '../../features/auth/hooks/use-auth';
 
 const { Header, Sider, Content } = Layout;
 
 export function DashboardLayout() {
   const navigate = useNavigate();
+  const location = useLocation();
   const { logout, user } = useAuth();
 
   const userMenu = {
@@ -26,18 +27,26 @@ export function DashboardLayout() {
     ],
   };
 
+  const routeMap: Record<string, string> = {
+    '/dashboard': 'dashboard',
+    '/dashboard/realtime': 'realtime',
+    '/dashboard/users': 'users',
+  };
+
   const menuItems = [
     {
       key: 'realtime',
       icon: <LineChartOutlined />,
       label: 'Realtime',
-      disabled: true,
+      disabled: false,
+      onClick: () => navigate('/dashboard/realtime'),
     },
     {
       key: 'dashboard',
       icon: <DashboardOutlined />,
       label: 'Dashboard',
-      disabled: true,
+      onClick: () => navigate('/dashboard'),
+      disabled: false,
     },
   ];
 
@@ -46,9 +55,12 @@ export function DashboardLayout() {
       key: 'users',
       icon: <UserOutlined />,
       label: 'Users',
+      onClick: () => navigate('/dashboard/users'),
       disabled: false,
     });
   }
+
+  const selectedKey = routeMap[location.pathname] || 'dashboard';
 
   return (
     <Layout style={{ minHeight: '100vh' }}>
@@ -57,12 +69,7 @@ export function DashboardLayout() {
         <Menu
           theme="dark"
           mode="inline"
-          defaultSelectedKeys={['users']}
-          onClick={({ key }) => {
-            if (key === 'users') {
-              navigate('/dashboard/users');
-            }
-          }}
+          selectedKeys={[selectedKey]}
           items={menuItems}
         />
       </Sider>
@@ -72,7 +79,6 @@ export function DashboardLayout() {
           <Dropdown menu={userMenu} placement="bottomRight">
             <Button icon={<UserOutlined />}>
               {user?.name || user?.email || 'User'}
-              {/* Admin */}
             </Button>
           </Dropdown>
         </Header>
