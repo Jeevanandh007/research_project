@@ -7,6 +7,7 @@ import {
 import { Login } from '../features/auth/pages/login';
 import { DashboardLayout } from '../shared/layouts/dashboard.layout';
 import { Users } from '../features/users/pages/users';
+import { Realtime } from '../features/machines/pages/realtime';
 import { ProtectedRoute } from '../shared/components/protected-route';
 
 export function App() {
@@ -22,7 +23,7 @@ export function App() {
             </ProtectedRoute>
           }
         >
-          {/* <Route index element={<Dashboard />} /> */}
+          <Route path="realtime" element={<Realtime />} />
           <Route path="users" element={<Users />} />
         </Route>
         <Route path="/" element={<Navigate to="/dashboard" replace />} />
