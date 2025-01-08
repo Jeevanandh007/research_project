@@ -4,7 +4,7 @@ import * as schema from './schema';
 
 const pool = new Pool({
   host: 'localhost',
-  port: 5432,
+  port: 5431,
   user: 'postgres',
   password: 'postgres',
   database: 'auth_db',
