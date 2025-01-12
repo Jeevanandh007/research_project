@@ -49,11 +49,18 @@ export const isValidRole = (role: string): role is Role => {
 export const machineData = pgTable('machine_data', {
   id: serial('id').primaryKey(),
   timestamp: timestamp('timestamp', { withTimezone: true }).notNull(),
+  productId: varchar('product_id', { length: 50 }).notNull(),
+  type: varchar('type', { length: 1 }).notNull(),
   airTemperature: numeric('air_temperature').notNull(),
   processTemperature: numeric('process_temperature').notNull(),
   rotationalSpeed: integer('rotational_speed').notNull(),
   torque: numeric('torque').notNull(),
   toolWear: integer('tool_wear').notNull(),
+  twf: boolean('twf').notNull(), // Tool wear failure
+  hdf: boolean('hdf').notNull(), // Heat dissipation failure
+  pwf: boolean('pwf').notNull(), // Power failure
+  osf: boolean('osf').notNull(), // Overstrain failure
+  rnf: boolean('rnf').notNull(), // Random failure
   machineStatus: boolean('machine_status').notNull(),
   predictionStatus: varchar('prediction_status', { length: 50 }).notNull(),
   createdAt: timestamp('created_at', { withTimezone: true })

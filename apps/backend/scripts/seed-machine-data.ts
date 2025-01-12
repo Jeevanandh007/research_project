@@ -30,13 +30,20 @@ async function seedMachineData() {
 
     for (const [index, record] of records.entries()) {
       const newMachineData: NewMachineData = {
-        timestamp: new Date(),
+        timestamp: new Date(record['Timestamp']),
+        productId: record['Product ID'],
+        type: record['Type'],
         airTemperature: record['Air temperature [K]'].toString(),
         processTemperature: record['Process temperature [K]'].toString(),
         rotationalSpeed: parseInt(record['Rotational speed [rpm]']),
         torque: record['Torque [Nm]'].toString(),
         toolWear: parseInt(record['Tool wear [min]']),
-        machineStatus: true,
+        twf: Boolean(parseInt(record['TWF'])),
+        hdf: Boolean(parseInt(record['HDF'])),
+        pwf: Boolean(parseInt(record['PWF'])),
+        osf: Boolean(parseInt(record['OSF'])),
+        rnf: Boolean(parseInt(record['RNF'])),
+        machineStatus: !Boolean(parseInt(record['Machine failure'])),
         predictionStatus: 'pending',
       };
 
