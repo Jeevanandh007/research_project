@@ -1,0 +1,7 @@
+insight-engine.duckdns.org {
+    reverse_proxy host.docker.internal:4200
+}
+
+api-insight-engine.duckdns.org {
+    reverse_proxy host.docker.internal:3333
+}
