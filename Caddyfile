@@ -1,9 +1,11 @@
 insight-engine.duckdns.org {
-    reverse_proxy host.docker.internal:4200
+    root * /web-app
+    try_files {path} /index.html
+    file_server
 }
 
 api-insight-engine.duckdns.org {
-    reverse_proxy host.docker.internal:3000
+    reverse_proxy 172.17.0.1:3000
 }
 
 metabase-insight-engine.duckdns.org {
