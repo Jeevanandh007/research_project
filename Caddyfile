@@ -11,3 +11,7 @@ api-insight-engine.duckdns.org {
 metabase-insight-engine.duckdns.org {
     reverse_proxy metabase:3000
 }
+
+pgadmin-insight-engine.duckdns.org {
+    reverse_proxy pgadmin:80
+}
