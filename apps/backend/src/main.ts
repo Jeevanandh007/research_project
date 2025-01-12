@@ -6,14 +6,21 @@
 import express from 'express';
 import cookieParser from 'cookie-parser';
 import cors from 'cors';
+import * as dotenv from 'dotenv';
+import morgan from 'morgan';
 import authRoutes from './routes/auth';
 import userRoutes from './routes/users';
 import machineDataRoutes from './routes/machine-data';
+
+dotenv.config();
 
 const host = process.env.HOST ?? 'localhost';
 const port = process.env.PORT ? Number(process.env.PORT) : 3000;
 
 const app = express();
+
+// Logging middleware
+app.use(morgan('dev'));
 
 // CORS configuration
 app.use(cors());
