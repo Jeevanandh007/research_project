@@ -14,7 +14,7 @@ services:
     image: metabase/metabase
     restart: unless-stopped
     ports:
-      - "3000:3000"
+      - "4000:3000"
     depends_on:
       - postgres
   caddy:

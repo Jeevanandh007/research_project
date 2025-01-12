@@ -3,5 +3,9 @@ insight-engine.duckdns.org {
 }
 
 api-insight-engine.duckdns.org {
-    reverse_proxy host.docker.internal:3333
+    reverse_proxy host.docker.internal:3000
+}
+
+metabase-insight-engine.duckdns.org {
+    reverse_proxy metabase:3000
 }
