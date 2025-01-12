@@ -3,34 +3,29 @@ import { machineData, type NewMachineData } from '../src/db/schema';
 import { parse } from 'csv-parse';
 import fs from 'fs';
 import path from 'path';
+import moment from 'moment';
+import { get, keys } from 'lodash';
 
 const INTERVAL_MS = 10000; // 10 seconds interval between inserts
 
 async function seedMachineData() {
   try {
     const csvPath = path.join(__dirname, '../dataset_with_timestamps.csv');
+    console.log(csvPath);
     const fileContent = fs.readFileSync(csvPath, 'utf-8');
 
-    const records: any[] = await new Promise((resolve, reject) => {
-      parse(
-        fileContent,
-        {
-          columns: true,
-          skip_empty_lines: true,
-          cast: true,
-        },
-        (err, records) => {
-          if (err) reject(err);
-          resolve(records);
-        }
-      );
+    const records = parse(fileContent, {
+      columns: true,
+      skip_empty_lines: true,
+      // cast: true,
     });
 
-    console.log(`Found ${records.length} records to insert`);
+    for await (const record of records) {
+      console.log('Inserting', record);
+      const timestamp = moment(get(record, keys(record)[0]), 'DD-MM-YY HH:mm');
 
-    for (const [index, record] of records.entries()) {
       const newMachineData: NewMachineData = {
-        timestamp: new Date(record['Timestamp']),
+        timestamp: timestamp.toDate(),
         productId: record['Product ID'],
         type: record['Type'],
         airTemperature: record['Air temperature [K]'].toString(),
@@ -48,11 +43,8 @@ async function seedMachineData() {
       };
 
       await db.insert(machineData).values(newMachineData);
-      console.log(`Inserted record ${index + 1}/${records.length}`);
 
-      if (index < records.length - 1) {
-        await new Promise((resolve) => setTimeout(resolve, INTERVAL_MS));
-      }
+      await new Promise((resolve) => setTimeout(resolve, INTERVAL_MS));
     }
 
     console.log('Machine data seeded successfully');
