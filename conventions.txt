@@ -1,0 +1,4 @@
+prediction status
+0=pending
+1=completed
+2=exception

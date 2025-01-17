@@ -3,6 +3,7 @@
   "version": "1.0.0",
   "scripts": {
     "db:migrate": "drizzle-kit push",
+    "db:pull": "drizzle-kit pull",
     "create-admin": "tsx scripts/create-admin.ts",
     "seed-machine-data": "tsx scripts/seed-machine-data.ts"
   },

@@ -8,6 +8,8 @@ import {
   ToolOutlined,
 } from '@ant-design/icons';
 import { MetricCard } from '../components/metric-card';
+import { MachineStatusCard } from '../components/machine-status-card';
+import { PredictionStatusCard } from '../components/prediction-status-card';
 import { useMachineMetrics } from '../hooks/use-machine-metrics';
 
 const METRIC_CONFIGS = [
@@ -58,25 +60,18 @@ export function Realtime() {
     <Row gutter={[24, 24]}>
       {/* Machine Status Card */}
       <Col xs={24} sm={12} md={8}>
-        <MetricCard
-          icon={<PoweroffOutlined />}
-          label="Machine Status"
-          value={machineData?.machineStatus ? 'Online' : 'Offline'}
+        <MachineStatusCard
+          machineStatus={machineData?.machineStatus ?? 0}
+          predictionStatus={machineData?.predictionStatus ?? 0}
           isLoading={isLoading}
-          variant="status"
-          status={machineData?.machineStatus ?? false}
         />
       </Col>
 
       {/* Prediction Status Card */}
       <Col xs={24} sm={12} md={8}>
-        <MetricCard
-          icon={<ExperimentOutlined />}
-          label="Prediction Status"
-          value={machineData?.predictionStatus}
+        <PredictionStatusCard
+          predictionStatus={machineData?.predictionStatus ?? 0}
           isLoading={isLoading}
-          variant="status"
-          status={machineData?.predictionStatus === 'enabled'}
         />
       </Col>
 

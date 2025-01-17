@@ -6,7 +6,13 @@ export interface MachineData {
   rotationalSpeed: number;
   torque: string;
   toolWear: number;
-  machineStatus: boolean;
-  predictionStatus: string;
-  createdAt: string;
+  machineStatus: number;
+  predictionStatus: number;
+  productId: string;
+  type: number;
+  twf: number;
+  hdf: number;
+  pwf: number;
+  osf: number;
+  rnf: number;
 }

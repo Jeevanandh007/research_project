@@ -3,7 +3,7 @@ import { validationResult } from 'express-validator';
 import bcrypt from 'bcrypt';
 import jwt from 'jsonwebtoken';
 import { db } from '../db';
-import { users, type Role } from '../db/schema';
+import { users } from '../db/schema';
 import { eq } from 'drizzle-orm';
 import { auth, AuthRequest } from '../middleware/auth';
 

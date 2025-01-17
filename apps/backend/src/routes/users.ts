@@ -2,11 +2,16 @@ import { Router } from 'express';
 import { body, validationResult } from 'express-validator';
 import bcrypt from 'bcrypt';
 import { db } from '../db';
-import { users, type NewUser, type Role, isValidRole } from '../db/schema';
+import { NewUsers, users } from '../db/schema';
 import { auth, AuthRequest, checkRole } from '../middleware/auth';
 import { eq, sql } from 'drizzle-orm';
 
 const router = Router();
+
+// Type guard for role validation
+export const isValidRole = (role: string) => {
+  return role === 'admin' || role === 'user';
+};
 
 // Create user (protected, admin only)
 router.post(
@@ -34,7 +39,7 @@ router.post(
       }
 
       const { email, password, name } = req.body;
-      const role = (req.body.role || 'user') as Role;
+      const role = req.body.role || 'user';
 
       // Check if user exists
       const existingUser = await db
@@ -48,7 +53,7 @@ router.post(
 
       const hashedPassword = await bcrypt.hash(password, 10);
 
-      const newUserData: NewUser = {
+      const newUserData = {
         email,
         password: hashedPassword,
         name,
