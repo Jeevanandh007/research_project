@@ -83,7 +83,7 @@ router.get('/latest', auth, async (req: AuthRequest, res) => {
     const latestData = await db
       .select()
       .from(machineData)
-      .orderBy(desc(machineData.timestamp))
+      .orderBy(desc(machineData.id))
       .limit(limit);
 
     res.json(latestData);

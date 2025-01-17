@@ -21,8 +21,8 @@ async function seedMachineData() {
 
     for await (const record of records) {
       console.log('Inserting', record);
-      // const timestamp = moment(get(record, keys(record)[0]), 'DD-MM-YY HH:mm');
-      const timestamp = moment();
+      const timestamp = moment(get(record, keys(record)[0]), 'DD-MM-YY HH:mm');
+      // const timestamp = moment();
 
       const machineData = {
         timestamp: timestamp.toISOString(),
