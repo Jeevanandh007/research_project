@@ -11,11 +11,21 @@ import morgan from 'morgan';
 import authRoutes from './routes/auth';
 import userRoutes from './routes/users';
 import machineDataRoutes from './routes/machine-data';
+import { predictionWorker } from './queues/prediction.worker';
 
 dotenv.config();
 
 const host = process.env.HOST ?? 'localhost';
 const port = process.env.PORT ? Number(process.env.PORT) : 3000;
+
+// Initialize worker
+predictionWorker.on('completed', (job) => {
+  console.log(`Job ${job.id} completed successfully`);
+});
+
+predictionWorker.on('failed', (job, err) => {
+  console.error(`Job ${job?.id} failed:`, err);
+});
 
 const app = express();
 
