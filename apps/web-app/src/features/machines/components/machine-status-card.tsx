@@ -13,8 +13,7 @@ export function MachineStatusCard({
   isLoading = false,
   predictionStatus,
 }: MachineStatusCardProps) {
-  // Machine status: 0 = failed, 1 = running
-  const textVal = machineStatus === 1 ? 'Running' : 'Failed';
+  const textVal = machineStatus === 0 ? 'Operational' : 'Probable Failure';
 
   return (
     <MetricCard
@@ -23,7 +22,7 @@ export function MachineStatusCard({
       value={predictionStatus != 1 ? 'Unknown' : textVal}
       isLoading={isLoading}
       variant="status"
-      status={predictionStatus == 1 ? machineStatus === 1 : false}
+      status={predictionStatus == 1 ? machineStatus === 0 : false}
     />
   );
 }
